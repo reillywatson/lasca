@@ -35,25 +35,14 @@ import os
 import time
 import random
 
-RedNonKing = "r"
-RedKing = "R"
-BlackNonKing = "b"
-BlackKing = "B"
-
 def IsPieceKing(piece):
-	if piece == RedKing or piece == BlackKing:
-		return True
-	return False
+	return piece.isupper()
 
 def IsPieceRed(piece):
-	if piece == RedNonKing or piece == RedKing:
-		return True
-	return False
+	return piece.lower() == 'r'
 
 def IsPieceBlack(piece):
-	if piece == BlackNonKing or piece == BlackKing:
-		return True
-	return False
+	return piece.lower() == 'b'
 
 def IsSquareRed(square):
 	if len(square) > 0:
@@ -105,11 +94,7 @@ def SwapContents(src, dest):
 def MovePiece(board, srcrow, srccol, destrow, destcol):
 	SwapContents(board[srcrow][srccol], board[destrow][destcol])
 	if destrow == 0 or destrow == 6:
-		if IsSquareRed(board[destrow][destcol]):
-			board[destrow][destcol][0] = RedKing
-		if IsSquareBlack(board[destrow][destcol]):
-			board[destrow][destcol][0] = BlackKing
-		
+		board[destrow][destcol][0] = board[destrow][destcol][0].upper()		
 		
 # determines the final coordinates of a piece,
 # given a start position and the position of the piece being jumped
@@ -226,9 +211,9 @@ def GenerateMoves(board, turn):
 def MakeStartingBoard():
 	board = MakeEmptyBoard()
 	for i in range(3):
-		AddPieces(board[i], BlackNonKing)
+		AddPieces(board[i], 'b')
 	for i in range(4, 7):
-		AddPieces(board[i], RedNonKing)
+		AddPieces(board[i], 'r')
 	return board
 		
 def AddPieces(row, val):
