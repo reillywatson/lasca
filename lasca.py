@@ -386,6 +386,8 @@ def Trans(row, col):
 	
 # Translates a move from user format to [srcrow, srccol, destrow, destcol] array indices
 def TranslateCoordinates(coord):
+	if len(coord) == 4:
+		coord = coord[:2]+'-'+coord[2:]
 	coord = coord.upper()
 	rowcoord = coord[0]
 	colcoord = string.atoi(coord[1])
@@ -447,11 +449,11 @@ def main():
 					print "Board value for black:", EvaluateBoard(currentboard, "black")
 					continue
 				
-				if len(humanmove) != 5:
-					print "Moves must be in format RowCol-RowCol (ie D4-C3)"
+				try:
+					coords = TranslateCoordinates(humanmove)
+				except:
+					print 'Move must be in the format RowCol-RowCol (eg C3-D4)'
 					continue
-				
-				coords = TranslateCoordinates(humanmove)
 				choices = GenerateMoves(currentboard, turn)
 				srcrow = coords[0]
 				srccol = coords[1]
